@@ -27,7 +27,7 @@
                             <label class="form-label fw-semibold">Wilayah Tujuan Dinas</label>
                             <select name="tujuan_dinas" class="form-select" required>
                                 <option value="DKI Jakarta">DKI Jakarta</option>
-                                <option value="Luar Kota (Sumut)">Luar Kota (Sumut)</option>
+                                <option value="Tapanuli Selatan">Tapanuli Selatan</option>
                             </select>
                         </div>
                     </div>

@@ -24,7 +24,7 @@ class AuthController extends Controller
         if (Auth::attempt($credentials)) {
             $request->session()->regenerate();
             // Jika berhasil, arahkan ke halaman utama e-SPPD
-            return redirect()->intended('/');
+            return redirect()->intended('/dashboard');
         }
 
         // Jika gagal, kembalikan ke halaman login dengan pesan error

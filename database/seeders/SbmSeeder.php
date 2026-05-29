@@ -25,6 +25,12 @@ class SbmSeeder extends Seeder
                 'golongan_atau_eselon' => 'Semua Golongan',
                 'lokasi_tujuan' => 'Luar Kota (Sumut)',
                 'batas_maksimal' => 370000,
+            ],
+            [
+                'jenis_biaya' => 'Uang Harian',
+                'golongan_atau_eselon' => 'Semua Golongan',
+                'lokasi_tujuan' => 'Tapanuli Selatan',
+                'batas_maksimal' => 370000,
             ]
         ]);
     }

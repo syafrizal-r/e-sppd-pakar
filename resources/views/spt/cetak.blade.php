@@ -80,24 +80,27 @@
         }
 
         @media print {
+
             /* Tambahkan !important agar paksaan sembunyi saat print pasti berjalan */
-            .no-print { display: none !important; }
+            .no-print {
+                display: none !important;
+            }
         }
-        
+
         .btn-print {
             /* Mengubah posisi menjadi di sudut kanan atas */
             position: absolute;
             top: 20px;
             right: 20px;
-            width: 180px; 
+            width: 180px;
             padding: 10px;
-            text-align: center; 
-            background-color: #0d6efd; 
+            text-align: center;
+            background-color: #0d6efd;
             color: white;
-            text-decoration: none; 
-            font-weight: bold; 
-            border-radius: 5px; 
-            border: none; 
+            text-decoration: none;
+            font-weight: bold;
+            border-radius: 5px;
+            border: none;
             cursor: pointer;
             z-index: 1000;
         }
@@ -161,41 +164,41 @@
             <td width="90" class="bold">Kepada</td>
             <td width="20" class="center">:</td>
             <td>
-                @foreach ($spt->pegawai as $index => $peg)
-                    <div class="justify mb-10" style="margin-bottom: 12px;">
-                        <table>
-                            <tr>
-                                <td width="25">{{ $index + 1 }}.</td>
-                                <td class="sub-label">Nama</td>
-                                <td>:</td>
-                                <td class="bold">{{ $peg->nama }}</td>
-                            </tr>
-                            <tr>
-                                <td></td>
-                                <td>Pangkat/Gol</td>
-                                <td>:</td>
-                                <td>{{ $peg->pangkat }} / {{ $peg->golongan }}</td>
-                            </tr>
-                            <tr>
-                                <td></td>
-                                <td>NIP</td>
-                                <td>:</td>
-                                <td>{{ $peg->nip }}</td>
-                            </tr>
-                            <tr>
-                                <td></td>
-                                <td>Jabatan</td>
-                                <td>:</td>
-                                <td>{{ $peg->jabatan }}</td>
-                            </tr>
-                            <tr>
-                                <td></td>
-                                <td>Tujuan</td>
-                                <td>:</td>
-                                <td>{{ $spt->yang_dikunjungi }}</td>
-                            </tr>
-                        </table>
-                    </div>
+                @foreach($spt->pegawai->sortByDesc('golongan')->values() as $index => $peg)
+                <div class="justify mb-10" style="margin-bottom: 12px;">
+                    <table>
+                        <tr>
+                            <td width="25">{{ $index + 1 }}.</td>
+                            <td class="sub-label">Nama</td>
+                            <td>:</td>
+                            <td class="bold">{{ $peg->nama }}</td>
+                        </tr>
+                        <tr>
+                            <td></td>
+                            <td>Pangkat/Gol</td>
+                            <td>:</td>
+                            <td>{{ $peg->pangkat }} / {{ $peg->golongan }}</td>
+                        </tr>
+                        <tr>
+                            <td></td>
+                            <td>NIP</td>
+                            <td>:</td>
+                            <td>{{ $peg->nip }}</td>
+                        </tr>
+                        <tr>
+                            <td></td>
+                            <td>Jabatan</td>
+                            <td>:</td>
+                            <td>{{ $peg->jabatan }}</td>
+                        </tr>
+                        <tr>
+                            <td></td>
+                            <td>Tujuan</td>
+                            <td>:</td>
+                            <td>{{ $spt->yang_dikunjungi }}</td>
+                        </tr>
+                    </table>
+                </div>
                 @endforeach
             </td>
         </tr>
@@ -203,27 +206,29 @@
 
     <table class="mt-10" style="width: 100%;">
         <tr>
-            <td width="90" class="bold">Untuk</td>
-            <td width="20" class="center">:</td>
-            <td>
-                <table class="indented-table">
+            <td width="90" class="bold" style="vertical-align: top;">Untuk</td>
+            <td width="20" class="center" style="vertical-align: top;">:</td>
+            <td style="vertical-align: top;">
+
+                <table class="indented-table" style="margin-top: 0;">
                     <tr>
-                        <td width="25">1.</td>
-                        <td class="justify">{{ $spt->dalam_rangka }}</td>
+                        <td width="25" style="vertical-align: top;">1.</td>
+                        <td class="justify" style="vertical-align: top;">{{ $spt->dalam_rangka }}</td>
                     </tr>
                     <tr>
-                        <td>2.</td>
-                        <td class="justify">Yang Dikunjungi: {{ $spt->yang_dikunjungi }}</td>
+                        <td style="vertical-align: top;">2.</td>
+                        <td class="justify" style="vertical-align: top;">Yang Dikunjungi: {{ $spt->yang_dikunjungi }}</td>
                     </tr>
                     <tr>
-                        <td>3.</td>
-                        <td class="justify">
+                        <td style="vertical-align: top;">3.</td>
+                        <td class="justify" style="vertical-align: top;">
                             Terhitung Mulai Tanggal
                             {{ \Carbon\Carbon::parse($spt->tgl_mulai)->locale('id')->translatedFormat('d F Y') }} s.d.
                             {{ \Carbon\Carbon::parse($spt->tgl_selesai)->locale('id')->translatedFormat('d F Y') }}.
                         </td>
                     </tr>
                 </table>
+
             </td>
         </tr>
     </table>
@@ -239,7 +244,8 @@
                 <td>Pada Tanggal</td>
                 <td>:</td>
                 <td>......
-                    {{ \Carbon\Carbon::parse($spt->tgl_spt)->locale('id')->translatedFormat('F Y') }}</td>
+                    {{ \Carbon\Carbon::parse($spt->tgl_spt)->locale('id')->translatedFormat('F Y') }}
+                </td>
             </tr>
         </table>
 

@@ -21,7 +21,7 @@
 
         <div class="col-md-4 mb-4">
             <div class="card shadow-sm border-0">
-                <div class="card-header bg-primary text-white fw-bold">
+                <div class="card-header bg-success text-white fw-bold">
                     <i class="bi bi-person-plus-fill me-2"></i> Tambah Pegawai Baru
                 </div>
                 <div class="card-body">
@@ -53,7 +53,7 @@
                                     placeholder="Contoh: Kepala Seksi..." required>
                             </div>
                         </div>
-                        <button type="submit" class="btn btn-primary w-100 fw-bold"><i class="bi bi-save"></i> Simpan
+                        <button type="submit" class="btn btn-success w-100 fw-bold"><i class="bi bi-save"></i> Simpan
                             Data</button>
                     </form>
                 </div>
@@ -65,7 +65,7 @@
                 <div class="card-body">
                     <div class="table-responsive">
                         <table class="table table-bordered table-hover align-middle">
-                            <thead class="table-primary text-center">
+                            <thead class="table-success text-center">
                                 <tr>
                                     <th>No</th>
                                     <th>Nama & NIP</th>

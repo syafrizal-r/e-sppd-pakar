@@ -16,6 +16,7 @@ Route::post('/login', [AuthController::class, 'prosesLogin']);
 Route::middleware('auth')->group(function () {
 
     Route::get('/', function () {
+        return redirect('/dashboard');
         // Mengambil semua data pegawai dari database
         $data_pegawai = App\Models\Pegawai::orderBy('nama', 'asc')->get();
         return view('form_spj', compact('data_pegawai'));
@@ -32,6 +33,11 @@ Route::middleware('auth')->group(function () {
     Route::get('/spt', [SptController::class, 'index'])->name('spt.index');
     Route::post('/spt', [SptController::class, 'store'])->name('spt.store');
     Route::get('/spt/cetak/{id}', [SptController::class, 'cetak'])->name('spt.cetak');
+    // Rute untuk Edit, Update, dan Hapus SPT
+    Route::get('/spt/{id}/edit', [SptController::class, 'edit'])->name('spt.edit');
+    Route::put('/spt/{id}', [SptController::class, 'update'])->name('spt.update');
+    Route::delete('/spt/{id}', [SptController::class, 'destroy'])->name('spt.destroy');
+
     // Route untuk Logout
     Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 });

@@ -77,4 +77,79 @@ class SptController extends Controller
         $spt = Spt::with('pegawai')->findOrFail($id);
         return view('spt.cetak', compact('spt'));
     }
+
+    // Menampilkan halaman form edit SPT
+    public function edit($id)
+    {
+        $spt = Spt::with('pegawai')->findOrFail($id);
+        $data_pegawai = Pegawai::orderBy('golongan', 'desc')->get();
+
+        // Mengambil ID pegawai yang sudah tercentang di SPT ini
+        $pegawai_terpilih = $spt->pegawai->pluck('id')->toArray();
+
+        return view('spt.edit', compact('spt', 'data_pegawai', 'pegawai_terpilih'));
+    }
+
+    // Memproses penyimpanan perubahan data SPT
+    public function update(Request $request, $id)
+    {
+        $request->validate([
+            'dalam_rangka' => 'required',
+            'pegawai_ids' => 'required|array',
+            'tgl_mulai' => 'required|date',
+            'tgl_selesai' => 'required|date|after_or_equal:tgl_mulai',
+        ]);
+
+        $spt = Spt::findOrFail($id);
+        $tglMulaiBaru = $request->tgl_mulai;
+        $tglSelesaiBaru = $request->tgl_selesai;
+
+        // ALGORITMA CEK BENTURAN JADWAL (Mengecualikan SPT ini sendiri)
+        foreach ($request->pegawai_ids as $pegawai_id) {
+            $bentrok = Spt::whereHas('pegawai', function ($query) use ($pegawai_id) {
+                $query->where('pegawai.id', $pegawai_id);
+            })->where('id', '!=', $id) // <-- Penting: Jangan cek dengan diri sendiri
+                ->where(function ($query) use ($tglMulaiBaru, $tglSelesaiBaru) {
+                    $query->where('tgl_mulai', '<=', $tglSelesaiBaru)
+                        ->where('tgl_selesai', '>=', $tglMulaiBaru);
+                })->first();
+
+            if ($bentrok) {
+                $pegawai = Pegawai::find($pegawai_id);
+                $nomor = $bentrok->nomor_spt ?? $bentrok->dalam_rangka;
+                return back()->with('error', "GAGAL! Pegawai a.n. {$pegawai->nama} tidak bisa dipilih karena bentrok dengan jadwal SPT lain (SPT: {$nomor}).")->withInput();
+            }
+        }
+
+        // Update data utama SPT
+        $spt->update([
+            'nomor_spt' => $request->nomor_spt,
+            'dasar_rekening' => $request->dasar_rekening,
+            'dasar_tanggal' => $request->dasar_tanggal,
+            'dalam_rangka' => $request->dalam_rangka,
+            'yang_dikunjungi' => $request->yang_dikunjungi,
+            'tgl_mulai' => $request->tgl_mulai,
+            'tgl_selesai' => $request->tgl_selesai,
+            'tgl_spt' => $request->tgl_spt,
+        ]);
+
+        // Fungsi sync() sangat canggih: otomatis menghapus centang lama dan mengganti dengan centang baru
+        $spt->pegawai()->sync($request->pegawai_ids);
+
+        return redirect()->route('spt.index')->with('sukses', 'Dokumen SPT berhasil diperbarui!');
+    }
+
+    // Menghapus data SPT
+    public function destroy($id)
+    {
+        $spt = Spt::findOrFail($id);
+
+        // Putuskan dulu relasi pegawai di tabel perantara agar tidak error
+        $spt->pegawai()->detach();
+
+        // Baru hapus dokumen SPT-nya
+        $spt->delete();
+
+        return back()->with('sukses', 'Dokumen SPT beserta daftar pegawainya berhasil dihapus permanen!');
+    }
 }
