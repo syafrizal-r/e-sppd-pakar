@@ -16,7 +16,6 @@ Route::post('/login', [AuthController::class, 'prosesLogin']);
 Route::middleware('auth')->group(function () {
 
     Route::get('/', function () {
-        return redirect('/dashboard');
         // Mengambil semua data pegawai dari database
         $data_pegawai = App\Models\Pegawai::orderBy('nama', 'asc')->get();
         return view('form_spj', compact('data_pegawai'));
