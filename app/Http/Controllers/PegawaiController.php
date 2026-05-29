@@ -33,6 +33,30 @@ class PegawaiController extends Controller
         return back()->with('sukses', 'Data Pegawai berhasil ditambahkan!');
     }
 
+    // Menampilkan halaman form edit
+    public function edit($id)
+    {
+        $pegawai = Pegawai::findOrFail($id);
+        return view('pegawai.edit', compact('pegawai'));
+    }
+
+    // Memproses penyimpanan perubahan data
+    public function update(Request $request, $id)
+    {
+        // Validasi, pastikan NIP unik KECUALI untuk NIP milik pegawai ini sendiri
+        $request->validate([
+            'nama' => 'required',
+            'nip' => 'required|unique:pegawai,nip,' . $id, 
+            'pangkat' => 'required',
+            'golongan' => 'required',
+            'jabatan' => 'required'
+        ]);
+
+        $pegawai = Pegawai::findOrFail($id);
+        $pegawai->update($request->all());
+
+        return redirect()->route('pegawai.index')->with('sukses', 'Data Pegawai berhasil diperbarui!');
+    }
     // Menghapus data pegawai
     public function destroy($id)
     {
@@ -41,4 +65,5 @@ class PegawaiController extends Controller
 
         return back()->with('sukses', 'Data Pegawai berhasil dihapus!');
     }
+
 }

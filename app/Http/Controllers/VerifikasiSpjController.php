@@ -78,4 +78,17 @@ class VerifikasiSpjController extends Controller
         // Lempar data ke halaman cetak
         return view('cetak_kwitansi', compact('spj'));
     }
+
+    // Fungsi untuk menghapus data Riwayat SPJ
+    public function destroy($id)
+    {
+        // Cari data berdasarkan ID, jika tidak ada akan muncul error 404
+        $spj = PengajuanSpj::findOrFail($id);
+
+        // Hapus data dari database
+        $spj->delete();
+
+        // Kembali ke halaman riwayat dengan membawa pesan sukses
+        return back()->with('sukses', 'Data Riwayat SPJ berhasil dihapus!');
+    }
 }

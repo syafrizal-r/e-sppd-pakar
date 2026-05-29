@@ -24,7 +24,7 @@ class SbmSeeder extends Seeder
                 'jenis_biaya' => 'Uang Harian',
                 'golongan_atau_eselon' => 'Semua Golongan',
                 'lokasi_tujuan' => 'Luar Kota (Sumut)',
-                'batas_maksimal' => 430000,
+                'batas_maksimal' => 370000,
             ]
         ]);
     }

@@ -96,7 +96,7 @@
         }
     @endphp
 
-    <button class="no-print btn-print" onclick="window.print()">🖨️ Cetak Kuitansi (A4)</button>
+    <button class="no-print btn-print" onclick="window.print()">🖨️ Cetak Kuitansi</button>
 
     <table width="100%" style="table-layout: fixed;">
         <tr>

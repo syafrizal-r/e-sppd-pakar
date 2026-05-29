@@ -101,7 +101,7 @@
                                 </ol>
                             </td>
                             <td class="text-center">
-                                <a href="{{ route('spt.cetak', $s->id) }}" target="_blank" class="btn btn-sm btn-primary">🖨️ Cetak A4</a>
+                                <a href="{{ route('spt.cetak', $s->id) }}" target="_blank" class="btn btn-sm btn-primary">🖨️ Cetak</a>
                             </td>
                         </tr>
                         @empty

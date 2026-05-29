@@ -21,6 +21,7 @@ Route::middleware('auth')->group(function () {
     });
     Route::post('/evaluasi-spj', [VerifikasiSpjController::class, 'evaluasi'])->name('evaluasi.spj');
     Route::get('/riwayat-spj', [VerifikasiSpjController::class, 'riwayat'])->name('riwayat.spj');
+    Route::delete('/riwayat-spj/{id}', [VerifikasiSpjController::class, 'destroy'])->name('spj.destroy');
     Route::get('/cetak-kwitansi/{id}', [VerifikasiSpjController::class, 'cetakKwitansi'])->name('cetak.kwitansi');
     Route::resource('sbm', App\Http\Controllers\SbmController::class);
     Route::resource('pegawai', App\Http\Controllers\PegawaiController::class);

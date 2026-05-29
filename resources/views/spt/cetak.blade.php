@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="id">
+
 <head>
     <meta charset="UTF-8">
     <title>Cetak SPT - {{ $spt->nomor_spt }}</title>
@@ -8,35 +9,58 @@
             size: A4;
             margin: 0.5cm 1cm 1cm 1cm;
         }
+
         body {
             font-family: "Times New Roman", serif;
             font-size: 16px;
             line-height: 1.4;
             color: #000;
         }
+
         table {
             width: 100%;
             border-collapse: collapse;
         }
+
         td {
             vertical-align: top;
             padding: 2px 0;
         }
-        .center { text-align: center; }
-        .justify { text-align: justify; }
-        .bold { font-weight: bold; }
-        .mt-10 { margin-top: 10px; }
-        .mt-20 { margin-top: 20px; }
-        .underline { text-decoration: underline; }
-        
+
+        .center {
+            text-align: center;
+        }
+
+        .justify {
+            text-align: justify;
+        }
+
+        .bold {
+            font-weight: bold;
+        }
+
+        .mt-10 {
+            margin-top: 10px;
+        }
+
+        .mt-20 {
+            margin-top: 20px;
+        }
+
+        .underline {
+            text-decoration: underline;
+        }
+
         /* Layout Pembagian Kolom Poin Utama */
         .indented-table {
             width: 100%;
             margin-top: 5px;
         }
+
         .sub-label {
             width: 100px;
         }
+
         .dots {
             width: 15px;
             text-align: center;
@@ -50,18 +74,36 @@
             text-align: left;
             font-size: 16px;
         }
-        .clear { clear: both; }
+
+        .clear {
+            clear: both;
+        }
 
         @media print {
-            .no-print { display: none; }
+            /* Tambahkan !important agar paksaan sembunyi saat print pasti berjalan */
+            .no-print { display: none !important; }
         }
+        
         .btn-print {
-            display: block; width: 160px; margin: 10px auto; padding: 8px;
-            text-align: center; background-color: #0d6efd; color: white;
-            text-decoration: none; font-weight: bold; border-radius: 4px; border: none; cursor: pointer;
+            /* Mengubah posisi menjadi di sudut kanan atas */
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            width: 180px; 
+            padding: 10px;
+            text-align: center; 
+            background-color: #0d6efd; 
+            color: white;
+            text-decoration: none; 
+            font-weight: bold; 
+            border-radius: 5px; 
+            border: none; 
+            cursor: pointer;
+            z-index: 1000;
         }
     </style>
 </head>
+
 <body>
 
     <button class="no-print btn-print" onclick="window.print()">🖨️ Print Dokumen SPT</button>
@@ -103,9 +145,11 @@
             <td width="90" class="bold">Dasar</td>
             <td width="20" class="center">:</td>
             <td class="justify">
-                DPA APBD Dinas Pertanian dan Ketahanan Pangan Provinsi Sumatera Utara Tahun Anggaran 2026, 
-                Kode Rekening: <strong>{{ $spt->dasar_rekening ?? '.........................................' }}</strong>, 
-                Tanggal: <strong>{{ $spt->dasar_tanggal ? \Carbon\Carbon::parse($spt->dasar_tanggal)->translatedFormat('d F Y') : '....................... 2026' }}</strong>.
+                DPA APBD Dinas Pertanian dan Ketahanan Pangan Provinsi Sumatera Utara Tahun Anggaran 2026,
+                Kode Rekening:
+                <strong>{{ $spt->dasar_rekening ?? '.........................................' }}</strong>,
+                Tanggal:
+                <strong>{{ $spt->dasar_tanggal ? \Carbon\Carbon::parse($spt->dasar_tanggal)->locale('id')->translatedFormat('d F Y') : '....................... 2026' }}</strong>.
             </td>
         </tr>
     </table>
@@ -117,35 +161,41 @@
             <td width="90" class="bold">Kepada</td>
             <td width="20" class="center">:</td>
             <td>
-                @foreach($spt->pegawai as $index => $peg)
-                <div class="justify mb-10" style="margin-bottom: 12px;">
-                    <table>
-                        <tr>
-                            <td width="25">{{ $index + 1 }}.</td>
-                            <td class="sub-label">Nama</td>
-                            <td class="dots">:</td>
-                            <td class="bold">{{ $peg->nama }}</td>
-                        </tr>
-                        <tr>
-                            <td></td>
-                            <td>Pangkat/Gol</td>
-                            <td>:</td>
-                            <td>{{ $peg->pangkat }} / {{ $peg->golongan }}</td>
-                        </tr>
-                        <tr>
-                            <td></td>
-                            <td>NIP</td>
-                            <td>:</td>
-                            <td>{{ $peg->nip }}</td>
-                        </tr>
-                        <tr>
-                            <td></td>
-                            <td>Jabatan</td>
-                            <td>:</td>
-                            <td>{{ $peg->jabatan }}</td>
-                        </tr>
-                    </table>
-                </div>
+                @foreach ($spt->pegawai as $index => $peg)
+                    <div class="justify mb-10" style="margin-bottom: 12px;">
+                        <table>
+                            <tr>
+                                <td width="25">{{ $index + 1 }}.</td>
+                                <td class="sub-label">Nama</td>
+                                <td>:</td>
+                                <td class="bold">{{ $peg->nama }}</td>
+                            </tr>
+                            <tr>
+                                <td></td>
+                                <td>Pangkat/Gol</td>
+                                <td>:</td>
+                                <td>{{ $peg->pangkat }} / {{ $peg->golongan }}</td>
+                            </tr>
+                            <tr>
+                                <td></td>
+                                <td>NIP</td>
+                                <td>:</td>
+                                <td>{{ $peg->nip }}</td>
+                            </tr>
+                            <tr>
+                                <td></td>
+                                <td>Jabatan</td>
+                                <td>:</td>
+                                <td>{{ $peg->jabatan }}</td>
+                            </tr>
+                            <tr>
+                                <td></td>
+                                <td>Tujuan</td>
+                                <td>:</td>
+                                <td>{{ $spt->yang_dikunjungi }}</td>
+                            </tr>
+                        </table>
+                    </div>
                 @endforeach
             </td>
         </tr>
@@ -159,7 +209,7 @@
                 <table class="indented-table">
                     <tr>
                         <td width="25">1.</td>
-                        <td class="justify">Dalam Rangka: {{ $spt->dalam_rangka }}</td>
+                        <td class="justify">{{ $spt->dalam_rangka }}</td>
                     </tr>
                     <tr>
                         <td>2.</td>
@@ -168,8 +218,9 @@
                     <tr>
                         <td>3.</td>
                         <td class="justify">
-                            Terhitung Mulai Tanggal {{ \Carbon\Carbon::parse($spt->tgl_mulai)->translatedFormat('d F Y') }} s.d. 
-                            {{ \Carbon\Carbon::parse($spt->tgl_selesai)->translatedFormat('d F Y') }}.
+                            Terhitung Mulai Tanggal
+                            {{ \Carbon\Carbon::parse($spt->tgl_mulai)->locale('id')->translatedFormat('d F Y') }} s.d.
+                            {{ \Carbon\Carbon::parse($spt->tgl_selesai)->locale('id')->translatedFormat('d F Y') }}.
                         </td>
                     </tr>
                 </table>
@@ -187,21 +238,23 @@
             <tr>
                 <td>Pada Tanggal</td>
                 <td>:</td>
-                <td>{{ $spt->tgl_spt ? \Carbon\Carbon::parse($spt->tgl_spt)->translatedFormat('d F Y') : '....................... 2026' }}</td>
+                <td>......
+                    {{ \Carbon\Carbon::parse($spt->tgl_spt)->locale('id')->translatedFormat('F Y') }}</td>
             </tr>
         </table>
-        
+
         <div class="bold mt-10" style="margin-top: 15px; line-height: 1.2;">
             KEPALA DINAS PERTANIAN DAN KETAHANAN PANGAN PROVINSI SUMATERA UTARA
         </div>
-        
+
         <div style="height: 70px;"></div>
-        
-        <div class="bold underline">Ir. RAJALI, S.Sos., M.S.P.</div>
-        <div>Pembina Utama Muda</div>
-        <div>NIP. 19680315 199303 1 003</div>
+
+        <div class="bold ">Fariz Haholongan Htagalung, S.STP., M.Si</div>
+        <div>Pembina Tingkat I</div>
+        <div>NIP. 19840410 200212 1 0003</div>
     </div>
     <div class="clear"></div>
 
 </body>
+
 </html>

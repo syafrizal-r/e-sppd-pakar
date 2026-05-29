@@ -10,6 +10,12 @@
             <a href="{{ url('/') }}" class="btn btn-primary shadow-sm"><i class="bi bi-plus-circle"></i> Buat Pengajuan Baru</a>
         </div>
 
+        @if(session('sukses'))
+            <div class="alert alert-success shadow-sm border-0 mb-3">
+                <i class="bi bi-check-circle-fill me-2"></i> {{ session('sukses') }}
+            </div>
+        @endif
+
         <div class="card shadow-sm border-0">
             <div class="card-body">
                 <div class="table-responsive">
@@ -22,6 +28,7 @@
                                 <th>Tujuan & Jenis Biaya</th>
                                 <th>Nominal Riil (Rp)</th>
                                 <th>Status Sistem Pakar</th>
+                                <th>Aksi</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -49,10 +56,19 @@
                                             <span class="badge bg-danger"><i class="bi bi-x-circle"></i> Ditolak / Melebihi Pagu</span>
                                         @endif
                                     </td>
+                                    <td class="text-center">
+                                        <form action="{{ route('spj.destroy', $row->id) }}" method="POST" onsubmit="return confirm('Yakin ingin menghapus riwayat pengajuan ini?')">
+                                            @csrf
+                                            @method('DELETE')
+                                            <button type="submit" class="btn btn-danger btn-sm" title="Hapus Data">
+                                                <i class="bi bi-trash"></i> Hapus
+                                            </button>
+                                        </form>
+                                    </td>
                                 </tr>
                             @empty
                                 <tr>
-                                    <td colspan="6" class="text-center text-muted py-4">Belum ada data pengajuan SPJ.</td>
+                                    <td colspan="7" class="text-center text-muted py-4">Belum ada data pengajuan SPJ.</td>
                                 </tr>
                             @endforelse
                         </tbody>
