@@ -6,6 +6,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\SbmController;
 use App\Http\Controllers\PegawaiController;
 use App\Http\Controllers\SptController;
+use App\Http\Controllers\DashboardController;
 
 // Route untuk tamu (belum login)
 Route::get('/login', [AuthController::class, 'index'])->name('login')->middleware('guest');
@@ -19,6 +20,7 @@ Route::middleware('auth')->group(function () {
         $data_pegawai = App\Models\Pegawai::orderBy('nama', 'asc')->get();
         return view('form_spj', compact('data_pegawai'));
     });
+    Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
     Route::post('/evaluasi-spj', [VerifikasiSpjController::class, 'evaluasi'])->name('evaluasi.spj');
     Route::get('/riwayat-spj', [VerifikasiSpjController::class, 'riwayat'])->name('riwayat.spj');
     Route::delete('/riwayat-spj/{id}', [VerifikasiSpjController::class, 'destroy'])->name('spj.destroy');
