@@ -7,6 +7,8 @@
     <title>@yield('title', 'e-SPPD Dashboard')</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/select2-bootstrap-5-theme@1.3.0/dist/select2-bootstrap-5-theme.min.css" />
     <style>
         body {
             background-color: #f4f6f9;
@@ -96,6 +98,14 @@
                 <i class="bi bi-file-earmark-check-fill me-2"></i> Dokumen SPT
             </a>
 
+            <a href="{{ route('spd.index') }}" class="{{ request()->is('spd*') ? 'active' : '' }}">
+                <i class="bi bi-envelope-paper-fill me-2"></i> Dokumen SPD
+            </a>
+
+            <a href="{{ route('kuitansi.index') }}" class="{{ request()->is('kuitansi*') ? 'active' : '' }}">
+                <i class="bi bi-cash-stack me-2"></i> Data Kuitansi
+            </a>
+            
             <a href="{{ route('pegawai.index') }}" class="{{ request()->is('pegawai*') ? 'active' : '' }}">
                 <i class="bi bi-people-fill me-2"></i> Master Data Pegawai
             </a>
@@ -123,6 +133,19 @@
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+
+    <script>
+        $(document).ready(function() {
+            $('.select2-pejabat').select2({
+                theme: 'bootstrap-5',
+                placeholder: $(this).data('placeholder'),
+                allowClear: true,
+                width: '100%'
+            });
+        });
+    </script>
 </body>
 
 </html>
